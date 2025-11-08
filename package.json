@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Gennecis/CSE-341/issues"
   },
-  "homepage": "https://github.com/Gennecis/CSE-341#readme"
+  "homepage": "https://github.com/Gennecis/CSE-341#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
