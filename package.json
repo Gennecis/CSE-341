@@ -1,0 +1,19 @@
+{
+  "name": "cse-341",
+  "version": "1.0.0",
+  "description": "CSE 341 Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gennecis/CSE-341.git"
+  },
+  "author": "Pascal E. Okezie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gennecis/CSE-341/issues"
+  },
+  "homepage": "https://github.com/Gennecis/CSE-341#readme"
+}
