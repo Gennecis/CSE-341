@@ -30,3 +30,7 @@ build/
 
 # Coverage reports
 coverage/
+
+# REST Client test files
+*.rest
+*.http
