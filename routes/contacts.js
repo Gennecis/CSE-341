@@ -1,34 +1,61 @@
-const express = require('express');
 const router = require('express').Router();
-const mongodb = require('../database/connect');
-const ObjectId = require('mongodb').ObjectId;
-// Get all contacts
-router.get('/', async (req, res) => {
-    try {
-        const db = mongodb.getDb();
-        const contacts = await db.collection('contacts').find().toArray();
-        res.json(contacts);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+const contactsController = require('../controllers/contacts');
 
-// Get a single contact by ID
-router.get('/:id', async (req, res) => {
-    try {
-        if (!ObjectId.isValid(req.params.id)) {
-            return res.status(400).json({ message: 'Invalid contact ID' });
-        }
-        const db = mongodb.getDb();
-        const contactId = new ObjectId(req.params.id);
-        const contact = await db.collection('contacts').findOne({ _id: contactId });
-        if (!contact) {
-            return res.status(404).json({ message: 'Contact not found' });
-        }
-        res.json(contact);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+/**
+ * GET /contacts
+ * @summary Get all contacts
+ * @tags Contacts
+ * @return {array<object>} 200 - An array of contact objects
+ * @return {object} 500 - Internal server error
+ */
+router.get('/', contactsController.getAllContacts);
+
+/**
+ * GET /contacts/{id}
+ * @summary Get a single contact by ID
+ * @tags Contacts
+ * @param {string} id.path.required - Contact ID
+ * @return {object} 200 - Contact object
+ * @return {object} 400 - Invalid contact ID
+ * @return {object} 404 - Contact not found
+ * @return {object} 500 - Internal server error
+ */
+router.get('/:id', contactsController.getContactById);
+
+/**
+ * POST /contacts
+ * @summary Create a new contact
+ * @tags Contacts
+ * @param {object} request.body.required - Contact data
+ * @return {object} 201 - Created contact ID
+ * @return {object} 400 - Validation error
+ * @return {object} 500 - Internal server error
+ */
+router.post('/', contactsController.createContact);
+
+/**
+ * PUT /contacts/{id}
+ * @summary Update an existing contact
+ * @tags Contacts
+ * @param {string} id.path.required - Contact ID
+ * @param {object} request.body.required - Contact data
+ * @return {null} 204 - Successfully updated
+ * @return {object} 400 - Invalid contact ID or validation error
+ * @return {object} 404 - Contact not found
+ * @return {object} 500 - Internal server error
+ */
+router.put('/:id', contactsController.updateContact);
+
+/**
+ * DELETE /contacts/{id}
+ * @summary Delete a contact
+ * @tags Contacts
+ * @param {string} id.path.required - Contact ID
+ * @return {null} 204 - Successfully deleted
+ * @return {object} 400 - Invalid contact ID
+ * @return {object} 404 - Contact not found
+ * @return {object} 500 - Internal server error
+ */
+router.delete('/:id', contactsController.deleteContact);
 
 module.exports = router;

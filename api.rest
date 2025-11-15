@@ -1,8 +1,57 @@
- ### Get all contacts
-#   GET http://localhost:3000/contacts
+### Get all contacts
+GET http://localhost:3000/contacts
 
-  ### Get single contact by ID
-#   GET http://localhost:3000/contacts/69101bacd3be75a1883b337f
+###
 
-  ### Test invalid ID
-  GET http://localhost:3000/contacts/invalidid123
+### Get single contact by ID
+GET http://localhost:3000/contacts/69101bacd3be75a1883b337f
+
+###
+
+### Create a new contact (POST)
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "okwuba",
+  "email": "ivan@gmail.com",
+  "favoriteColor": "red",
+  "birthday": "october 3rd"
+}
+###
+
+### Update an existing contact (PUT)
+PUT http://localhost:3000/contacts/69101bacd3be75a1883b337f
+Content-Type: application/json
+
+{
+  "firstName": "Ivan",
+  "lastName": "okwuba",
+  "email": "ivan2@gmail.com",
+  "favoriteColor": "red",
+  "birthday": "october 3rd"
+}
+
+###
+
+### Delete a contact
+DELETE http://localhost:3000/contacts/69101bacd3be75a1883b337f
+
+###
+
+### Test invalid ID
+GET http://localhost:3000/contacts/invalidid123
+
+###
+
+### Test POST with missing fields (should fail validation)
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+###
