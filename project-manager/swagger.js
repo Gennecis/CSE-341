@@ -6,8 +6,8 @@ const doc = {
     description: 'API for managing projects and tasks with full CRUD operations',
     version: '1.0.0',
   },
-  host: 'localhost:3000',
-  schemes: ['http'],
+  host: 'cse-341-project-manager.onrender.com',
+  schemes: ['https'],
   tags: [
     {
       name: 'Projects',
