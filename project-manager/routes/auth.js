@@ -124,4 +124,19 @@ router.get('/user', (req, res) => {
   }
 });
 
+/**
+ * GET /auth/debug
+ * @summary Debug OAuth configuration
+ * @tags Authentication
+ * @return {object} 200 - OAuth configuration details
+ */
+router.get('/debug', (req, res) => {
+  res.status(200).json({
+    callbackUrl: process.env.CALLBACK_URL || 'NOT SET - using fallback',
+    nodeEnv: process.env.NODE_ENV || 'NOT SET',
+    clientIdSet: !!process.env.GITHUB_CLIENT_ID,
+    clientSecretSet: !!process.env.GITHUB_CLIENT_SECRET,
+  });
+});
+
 module.exports = router;
