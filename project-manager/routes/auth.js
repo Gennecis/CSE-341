@@ -48,6 +48,10 @@ router.get(
  * @return {object} 200 - Success message with user info
  */
 router.get('/login/success', (req, res) => {
+  console.log('Login success page - req.user exists:', !!req.user);
+  console.log('Login success page - session ID:', req.sessionID);
+  console.log('Login success page - cookies received:', req.headers.cookie);
+
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -62,9 +66,15 @@ router.get('/login/success', (req, res) => {
       },
     });
   } else {
+    console.error('No user found on login success page - session not persisting!');
     res.status(401).json({
       success: false,
       message: 'Not authenticated',
+      debug: {
+        hasSession: !!req.session,
+        sessionID: req.sessionID,
+        hasCookie: !!req.headers.cookie
+      }
     });
   }
 });
