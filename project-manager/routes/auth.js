@@ -20,8 +20,24 @@ router.get(
   '/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/login/failed' }),
   (req, res) => {
-    // Successful authentication
-    res.redirect('/auth/login/success');
+    // DEBUG: Check if user exists right after authentication
+    console.log('Callback - req.user exists:', !!req.user);
+    console.log('Callback - req.isAuthenticated():', req.isAuthenticated());
+
+    if (!req.user) {
+      console.error('No user in callback after authentication!');
+      return res.status(500).json({ error: 'Authentication succeeded but no user object' });
+    }
+
+    // Successful authentication - save session before redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.redirect('/auth/login/failed');
+      }
+      console.log('Session saved successfully, redirecting...');
+      res.redirect('/auth/login/success');
+    });
   }
 );
 
