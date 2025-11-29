@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: true, // Allow requests from any origin (or configure specific origins)
   credentials: true
 }));
 app.use(express.json());
@@ -37,7 +37,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       secure: process.env.NODE_ENV === 'production', // HTTPS only in production
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'lax', // 'lax' allows cookies on OAuth redirects (same-site navigation)
     },
   })
 );
