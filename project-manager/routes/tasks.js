@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const tasksController = require('../controllers/tasks');
+const { isAuthenticated } = require('../middleware/auth');
 
 /**
  * GET /tasks
@@ -34,38 +35,41 @@ router.get('/project/:projectId', tasksController.getTasksByProject);
 
 /**
  * POST /tasks
- * @summary Create a new task
+ * @summary Create a new task (requires authentication)
  * @tags Tasks
  * @param {object} request.body.required - Task data
  * @return {object} 201 - Created task ID
  * @return {object} 400 - Validation error
+ * @return {object} 401 - Authentication required
  * @return {object} 500 - Internal server error
  */
-router.post('/', tasksController.createTask);
+router.post('/', isAuthenticated, tasksController.createTask);
 
 /**
  * PUT /tasks/{id}
- * @summary Update an existing task
+ * @summary Update an existing task (requires authentication)
  * @tags Tasks
  * @param {string} id.path.required - Task ID
  * @param {object} request.body.required - Task data
  * @return {null} 204 - Successfully updated
  * @return {object} 400 - Invalid task ID or validation error
+ * @return {object} 401 - Authentication required
  * @return {object} 404 - Task not found
  * @return {object} 500 - Internal server error
  */
-router.put('/:id', tasksController.updateTask);
+router.put('/:id', isAuthenticated, tasksController.updateTask);
 
 /**
  * DELETE /tasks/{id}
- * @summary Delete a task
+ * @summary Delete a task (requires authentication)
  * @tags Tasks
  * @param {string} id.path.required - Task ID
  * @return {null} 204 - Successfully deleted
  * @return {object} 400 - Invalid task ID
+ * @return {object} 401 - Authentication required
  * @return {object} 404 - Task not found
  * @return {object} 500 - Internal server error
  */
-router.delete('/:id', tasksController.deleteTask);
+router.delete('/:id', isAuthenticated, tasksController.deleteTask);
 
 module.exports = router;

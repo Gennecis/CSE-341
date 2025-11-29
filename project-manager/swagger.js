@@ -10,14 +10,28 @@ const doc = {
   schemes: ['https'],
   tags: [
     {
+      name: 'Authentication',
+      description: 'GitHub OAuth authentication endpoints',
+    },
+    {
       name: 'Projects',
-      description: 'Endpoints for managing projects',
+      description: 'Endpoints for managing projects (POST/PUT/DELETE require authentication)',
     },
     {
       name: 'Tasks',
-      description: 'Endpoints for managing tasks',
+      description: 'Endpoints for managing tasks (POST/PUT/DELETE require authentication)',
     },
   ],
+  securityDefinitions: {
+    github: {
+      type: 'oauth2',
+      authorizationUrl: 'https://github.com/login/oauth/authorize',
+      flow: 'implicit',
+      scopes: {
+        'user:email': 'Access user email',
+      },
+    },
+  },
   definitions: {
     Project: {
       name: 'Website Redesign',
@@ -68,6 +82,19 @@ const doc = {
     ValidationError: {
       message: 'Validation failed',
       errors: ['Field is required', 'Invalid value'],
+    },
+    AuthError: {
+      message: 'Authentication required',
+      error: 'You must be logged in to access this resource',
+      loginUrl: '/auth/github',
+    },
+    User: {
+      id: '507f1f77bcf86cd799439011',
+      githubId: '12345678',
+      username: 'johndoe',
+      displayName: 'John Doe',
+      email: 'john.doe@example.com',
+      avatarUrl: 'https://avatars.githubusercontent.com/u/12345678',
     },
   },
 };
