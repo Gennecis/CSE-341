@@ -29,6 +29,7 @@ app.use(
     secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
     resave: false,
     saveUninitialized: false,
+    name: 'sessionId', // Custom cookie name
     store: MongoStore.create({
       mongoUrl: process.env.CONNECTION_STRING,
       dbName: process.env.DB_NAME || 'ProjectManager',
@@ -37,7 +38,8 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24, // 1 day
       secure: process.env.NODE_ENV === 'production', // HTTPS only in production
       httpOnly: true,
-      sameSite: 'lax', // 'lax' allows cookies on OAuth redirects (same-site navigation)
+      sameSite: 'lax', // Works for same-site OAuth redirects
+      path: '/', // Explicitly set path
     },
   })
 );
