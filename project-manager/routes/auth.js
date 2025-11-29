@@ -35,8 +35,35 @@ router.get(
         console.error('Session save error:', err);
         return res.redirect('/auth/login/failed');
       }
-      console.log('Session saved successfully, redirecting...');
-      res.redirect('/auth/login/success');
+      console.log('Session saved successfully, sending HTML redirect...');
+
+      // Use HTML meta refresh + JavaScript redirect instead of server-side redirect
+      // This gives the browser time to process the Set-Cookie header
+      res.status(200).send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta http-equiv="refresh" content="1;url=/auth/login/success">
+          <title>Authentication Successful</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            .message { color: #28a745; font-size: 18px; }
+          </style>
+        </head>
+        <body>
+          <div class="message">
+            <p>✓ Authentication successful!</p>
+            <p>Redirecting...</p>
+          </div>
+          <script>
+            // Give browser time to process Set-Cookie header before navigation
+            setTimeout(function() {
+              window.location.href = '/auth/login/success';
+            }, 100);
+          </script>
+        </body>
+        </html>
+      `);
     });
   }
 );
